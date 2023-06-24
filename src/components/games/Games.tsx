@@ -5,19 +5,20 @@ import { useQuery } from "react-query";
 import { api } from "@/api-service";
 import { IGames } from "@/api-service";
 import { useState } from "react";
+import { AxiosError } from "axios";
 
 export default function Games() {
   console.log("Render");
 
   const [filter, setFilter] = useState("");
-  const { data, isLoading, status } = useQuery({
+  const { data, isLoading, status, error } = useQuery({
     queryKey: "games",
     queryFn: getGames,
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 0,
-    onError: (error) => error,
+    onError: (error: AxiosError) => error,
   });
 
   const filteredGames =
@@ -33,7 +34,7 @@ export default function Games() {
   //   );
   // else
   return (
-    <div>
+    <div className="flex justify-center flex-col">
       <section className="flex justify-center">
         <input
           type="text"
@@ -53,10 +54,12 @@ export default function Games() {
         </select>
       </section>
 
-      <div className="grid grid-cols-3 max-md:grid-cols-1 max-xl:grid-cols-2 gap-5">
-        {filteredGames?.map((game) => (
-          <Card key={game.id} {...game}></Card>
-        ))}
+      <div className="flex flex-col justify-center items-center">
+        <div className="grid grid-cols-3 max-lg:grid-cols-1 max-xl:grid-cols-2 p-9 gap-4">
+          {filteredGames?.map((game) => (
+            <Card key={game.id} {...game}></Card>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -77,5 +80,6 @@ async function getGames() {
     return { games, genres };
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }

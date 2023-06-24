@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Card(game: IGames) {
   return (
-    <div className="w-96 h-95 bg-[#262626] text-white rounded-md">
+    <div className="w-96 h-95 bg-[#0F172A] text-white rounded-md flex flex-col items-center p-2">
       <Image
         width={365}
         height={206}

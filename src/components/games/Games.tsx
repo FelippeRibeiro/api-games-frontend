@@ -7,10 +7,9 @@ import { useState } from "react";
 import { AxiosError } from "axios";
 
 export default function Games() {
-  console.log("Render");
-
   const [filter, setFilter] = useState("");
-  const [genre, setGenres] = useState("");
+
+  const [genre, setGenres] = useState<string[]>([]);
   const { data, isLoading, status, error } = useQuery({
     queryKey: "games",
     queryFn: getGames,
@@ -25,7 +24,8 @@ export default function Games() {
     ? data?.games?.filter((game) => game.title.toLowerCase().includes(filter.toLowerCase()))
     : data?.games;
 
-  if (genre.length) filteredGames = filteredGames?.filter((game) => game.genre === genre);
+  if (genre.length) filteredGames = filteredGames?.filter((game) => genre.includes(game.genre));
+  console.log(genre);
 
   if (isLoading)
     return (
@@ -48,14 +48,22 @@ export default function Games() {
         <section className="flex justify-center">
           <input
             type="text"
-            className="p-1 "
+            className="p-1 m-1"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Busque um jogo..."
           />
 
-          <select name="" id="" onChange={(e) => setGenres(e.target.value)}>
-            <option value={""}>Selecione um genero</option>
+          <select
+            name=""
+            id=""
+            onChange={(e) => setGenres(e.target.value ? [e.target.value] : [])}
+            className="bg-blue-200 rounded-lg"
+          >
+            <option value={""} disabled defaultValue={""}>
+              Selecione um genero
+            </option>
+            <option value="">Todos</option>
             {data?.genres?.map((game) => (
               <option key={game} value={game}>
                 {game}
@@ -64,8 +72,27 @@ export default function Games() {
           </select>
         </section>
 
+        <div className="flex flex-row gap-6 justify-center">
+          {data?.genres?.map((game) => (
+            <div key={game} className="text-white ">
+              <label htmlFor={game}>{game}</label>
+              <input
+                type="checkbox"
+                name={game}
+                id=""
+                value={game}
+                onChange={(e) => {
+                  if (!e.target.checked)
+                    setGenres((old) => old.filter((i) => i !== e.target.value));
+                  else setGenres((old) => [...old, e.target.value]);
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
         <div className="flex flex-col justify-center items-center">
-          <div className="grid grid-cols-3 max-lg:grid-cols-1 max-xl:grid-cols-2 p-9 gap-4">
+          <div className="grid grid-cols-3 max-lg:grid-cols-1 max-xl:grid-cols-2 p-9 gap-14">
             {filteredGames?.length ? (
               filteredGames?.map((game) => <Card key={game.id} {...game}></Card>)
             ) : (

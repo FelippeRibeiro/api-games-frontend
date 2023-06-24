@@ -11,6 +11,7 @@ export default function Games() {
   console.log("Render");
 
   const [filter, setFilter] = useState("");
+  const [genre, setGenres] = useState("");
   const { data, isLoading, status, error } = useQuery({
     queryKey: "games",
     queryFn: getGames,
@@ -21,10 +22,12 @@ export default function Games() {
     onError: (error: AxiosError) => error,
   });
 
-  const filteredGames =
+  let filteredGames =
     filter.length > 0
       ? data?.games?.filter((game) => game.title.toLowerCase().includes(filter.toLowerCase()))
       : data?.games;
+
+  if (genre.length) filteredGames = filteredGames?.filter((game) => game.genre === genre);
 
   // if (isLoading)
   //   return (
@@ -44,9 +47,9 @@ export default function Games() {
           placeholder="Busque um jogo..."
         />
 
-        <select name="" id="">
-          <option defaultValue={""}>Selecione um genero</option>
-          {data?.genres?.map((game) => (
+        <select name="" id="" onChange={(e) => setGenres(e.target.value)}>
+          <option value={""}>Selecione um genero</option>
+          {data?.genres?.sort().map((game) => (
             <option key={game} value={game}>
               {game}
             </option>

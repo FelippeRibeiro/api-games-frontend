@@ -6,6 +6,10 @@ Sim. eu dormi!
 
 #### Tesde de Estágio realizado, onde seria necessário implementar um frontend e apresentar uma lista de jogos, que é fornecida por uma API.
 
+Recebido 24 de jun. de 2023 00:01
+
+Entregue 25 de jun. de 2023 03:00
+
 ### Requisitos
 
 - O projeto deve ser feito usando React ou Next.JS

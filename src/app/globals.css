@@ -6,11 +6,8 @@
   
 } */
 body {
-  /* width: 100vw; */
-  padding: 10px;
   height: 100vh;
-  background: #0e0e0e;
-  /* background: linear-gradient(black, white); */
+  background: #0f0d14;
 }
 
 .custom-loader {

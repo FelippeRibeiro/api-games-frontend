@@ -25,7 +25,6 @@ export default function Games() {
     : data?.games;
 
   if (genre.length) filteredGames = filteredGames?.filter((game) => genre.includes(game.genre));
-  console.log(genre);
 
   if (isLoading)
     return (
@@ -36,7 +35,7 @@ export default function Games() {
   if (error)
     return (
       <div className="flex justify-center items-center h-screen">
-        <h1 className="text-red-600">
+        <h1 className="text-red-600 break-words">
           {error.message}
           😭
         </h1>
@@ -44,59 +43,45 @@ export default function Games() {
     );
   else
     return (
-      <div className="flex justify-center flex-col">
-        <section className="flex justify-center">
-          <input
-            type="text"
-            className="p-1 m-1"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder="Busque um jogo..."
-          />
+      <div className="flex">
+        <nav className="h-full bg-[#171122] w-60 fixed max-lg:h-fit max-lg:w-full shadow-md shadow-black">
+          <h1 className="text-center text-white mt-1 font-serif">API GAMES</h1>
+          <div className="p-2 pt-0">
+            <input
+              type="text"
+              className="border border-black w-full mt-5 rounded-lg mb-4
+                placeholder:p-4"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Busque um jogo..."
+            ></input>
+            {/* <button className="">Buscar</button> */}
 
-          <select
-            name=""
-            id=""
-            onChange={(e) => setGenres(e.target.value ? [e.target.value] : [])}
-            className="bg-blue-200 rounded-lg"
-          >
-            <option value={""} disabled defaultValue={""}>
-              Selecione um genero
-            </option>
-            <option value="">Todos</option>
-            {data?.genres?.map((game) => (
-              <option key={game} value={game}>
-                {game}
-              </option>
-            ))}
-          </select>
-        </section>
-
-        <div className="flex flex-row gap-6 justify-center">
-          {data?.genres?.map((game) => (
-            <div key={game} className="text-white ">
-              <label htmlFor={game}>{game}</label>
-              <input
-                type="checkbox"
-                name={game}
+            <div className="p-2 text-white">
+              <p className="text-center">Selecione um genero</p>
+              <select
+                name=""
                 id=""
-                value={game}
-                onChange={(e) => {
-                  if (!e.target.checked)
-                    setGenres((old) => old.filter((i) => i !== e.target.value));
-                  else setGenres((old) => [...old, e.target.value]);
-                }}
-              />
+                onChange={(e) => setGenres(e.target.value ? [e.target.value] : [])}
+                className="border border-blue-400 rounded-md w-full h-full text-black"
+              >
+                <option value="">Todos</option>
+                {data?.genres?.map((game) => (
+                  <option key={game} value={game}>
+                    {game}
+                  </option>
+                ))}
+              </select>
             </div>
-          ))}
-        </div>
+          </div>
+        </nav>
 
-        <div className="flex flex-col justify-center items-center">
-          <div className="grid grid-cols-3 max-lg:grid-cols-1 max-xl:grid-cols-2 p-9 gap-14">
+        <div className="flex ml-64 p-5 w-full justify-center max-lg:ml-0 max-lg:p-0 max-lg:mt-44">
+          <div className="grid grid-cols-3 gap-14 max-xl:grid-cols-2 max-lg:grid-cols-1">
             {filteredGames?.length ? (
               filteredGames?.map((game) => <Card key={game.id} {...game}></Card>)
             ) : (
-              <div className="text-center text-white">Nenhum resultado encontrado</div>
+              <div className="text-white ">Nenhum resultado encontrado</div>
             )}
           </div>
         </div>

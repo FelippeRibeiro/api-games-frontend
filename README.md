@@ -1,5 +1,7 @@
 [![wakatime](https://wakatime.com/badge/user/2f348d83-96c0-482b-ae6c-a687ad5fa937/project/eb9bc65a-21e5-487d-a8a0-dd22beada899.svg)](https://wakatime.com/badge/user/2f348d83-96c0-482b-ae6c-a687ad5fa937/project/eb9bc65a-21e5-487d-a8a0-dd22beada899)
 
+Sim. eu dormi!
+
 # Projeto de Estágio Frontend React
 
 #### Tesde de Estágio realizado, onde seria necessário implementar um frontend e apresentar uma lista de jogos, que é fornecida por uma API.
